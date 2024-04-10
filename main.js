@@ -1,4 +1,4 @@
-const todoList = document.getElementById("tasks-list");
+let updateElement = null;
 
 function submitForm(event) {
     event.preventDefault();
@@ -65,8 +65,16 @@ function submitForm(event) {
     tasksForm["description"].value = "";
     tasksForm["priority"].value = "";
 
-    console.log(li);
+    console.log(updateElement);
+
+    if (updateElement) {
+        updateElement.remove();
+        updateElement = null;
+    }
+
+    // console.log(li);
 }
+const todoList = document.getElementById("tasks-list");
 
 todoList.addEventListener("click", function(event) {
     const clickedElement = event.target;
@@ -78,6 +86,7 @@ todoList.addEventListener("click", function(event) {
             "title completed"
         );
     } else if (classList.contains("btn-warning")) {
+        console.log(clickedElement);
         const upperDiv = clickedElement.parentElement.parentElement.firstChild;
 
         const title = upperDiv.firstChild.innerText;
@@ -88,12 +97,14 @@ todoList.addEventListener("click", function(event) {
 
         const priority = upperDiv.firstChild.lastChild.innerText;
 
-        console.log(priority)
-
         tasksForm["name"].value = title;
         tasksForm["description"].value = description;
         tasksForm["priority"].value = priority;
 
-        // console.log(title, description);
+        const liElement = clickedElement.parentElement.parentElement;
+
+        updateElement = liElement;
     }
 });
+
+function deleteItem() {}
